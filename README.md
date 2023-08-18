@@ -4,9 +4,9 @@ See [https://www.gnu.org/software/emacs/manual/html_node/emacs/Quotation-Marks.h
 
 ## How it works
 
-It automatically replaces
+It automatically converts
 
-| From       | To   |
+| This       | Into  |
 |------------|------|
 | ``` ` ```  | `‘`  |
 | ``` `` ``` | `“`  |
