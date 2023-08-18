@@ -18,6 +18,8 @@ It automatically converts
 
 ## Installation
 
+### Packer
+
 ```lua
 use {
   'shadyalfred/electric-quotes.nvim',
