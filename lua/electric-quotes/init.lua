@@ -1,13 +1,5 @@
 local utf8 = require('utf8')
 
-local M = {}
-
-local is_enabled = false
-
-M.toggle = function()
-  is_enabled = not is_enabled
-end
-
 local single_quote_of = {
   ['`'] = '‘',
   ["'"] = '’',
@@ -17,6 +9,8 @@ local double_quote_of = {
   ['`'] = '“',
   ["'"] = '”',
 }
+
+local M = {}
 
 local get_nth_char = function(line, n)
   local i = utf8.offset(line, n)
@@ -54,23 +48,31 @@ local handle_quote = function(curr_char, prev_char)
   end
 end
 
-vim.api.nvim_create_autocmd('TextChangedI', {
-  nil,
-  callback = function()
-    if not is_enabled then
-      return
-    end
+local handle_event = function()
+  curr_char, prev_char = get_chars()
 
-    curr_char, prev_char = get_chars()
-
-    if curr_char == nil then
-      return
-    end
-
-    if curr_char == '`' or curr_char == "'" then
-      handle_quote(curr_char, prev_char)
-    end
+  if curr_char == nil then
+    return
   end
-})
+
+  if curr_char == '`' or curr_char == "'" then
+    handle_quote(curr_char, prev_char)
+  end
+end
+
+local event_id = nil
+
+M.toggle = function()
+  if event_id == nil then
+    event_id = vim.api.nvim_create_autocmd('TextChangedI', {
+      nil,
+      desc = "Check if user entered ' or ` for electric-quotes.nvim",
+      callback = handle_event
+    })
+  else
+    vim.api.nvim_del_autocmd(event_id)
+    event_id = nil
+  end
+end
 
 return M
