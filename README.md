@@ -20,6 +20,18 @@ It automatically converts
 
 ## Installation
 
+### Lazy
+
+```lua
+{
+  'shadyalfred/electric-quotes.nvim',
+  dependencies = {
+    'uga-rosa/utf8.nvim',
+  },
+  cmd = 'ElectricQuotesToggle',
+}
+```
+
 ### Packer
 
 ```lua
